@@ -1067,7 +1067,7 @@ smd(
      const _0x4ac8f2 = await search(_0x1cb962);
      if (_0x4ac8f2.length) {
        let _0x3d85b = await download(_0x4ac8f2[0].id);
-       let _0x307e6f = "*Queen_Alya • ᴀᴘᴋ ᴅᴏᴡɴʟᴏᴀᴅ ʟɪsᴛ* \n*________________________________* \n\n*_Reply Any Number To Download._*\n_Results For : " + _0x1cb962 + "_ \n";
+       let _0x307e6f = "*Queen_Nikka • ᴀᴘᴋ ᴅᴏᴡɴʟᴏᴀᴅ ʟɪsᴛ* \n*________________________________* \n\n*_Reply Any Number To Download._*\n_Results For : " + _0x1cb962 + "_ \n";
        for (let _0x5a5920 = 0; _0x5a5920 < _0x4ac8f2.length; _0x5a5920++) {
          _0x307e6f += "\n*" + (_0x5a5920 + 1) + " : " + _0x4ac8f2[_0x5a5920].name + "* \n*Id : " + _0x4ac8f2[_0x5a5920].id + "* \n";
        }
@@ -1153,7 +1153,7 @@ smd(
          : "";
        if (!_0x1c586e) {
          return await _0x1ae8f8.reply(
-           "*Provide Repo Url, _.gitclone https://github.com/STAR-KING0/Queen_Alya_*"
+           "*Provide Repo Url, _.gitclone https://github.com/hakisolos/Queen_Nikka_*"
          );
        }
        const _0x5906ab =
@@ -1203,7 +1203,7 @@ smd(
    try {
      let _0x204f81 = _0x55aba2.reply_text ? _0x55aba2.reply_text : _0x56da6b;
      if (!_0x204f81) {
-       return _0x55aba2.reply("*_Example : .tts Hi,I am Queen_Alya-Md whatsapp bot._*");
+       return _0x55aba2.reply("*_Example : .tts Hi,I am Queen_Nikka whatsapp bot._*");
      }
      try {
        let _0x1974d5 = _0x56da6b ? _0x56da6b.split(" ")[0].toLowerCase() : "en";
@@ -1234,7 +1234,7 @@ smd(
          },
          mimetype: "audio/mpeg",
          ptt: true,
-         fileName: "Queen_Alya-Md-tts.m4a"
+         fileName: "Queen-Nikka-Md-tts.m4a"
        }, {
          quoted: _0x55aba2
        });
@@ -2070,7 +2070,7 @@ smd({
  }) => {
    if (_0xb75e78.quoted && _0xb75e78.text) {
      const _0x5b8ee5 = _0xb75e78.quoted.text.split("\n");
-     if (_0x5b8ee5[0].includes("Queen_Alya • sᴏɴɢ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ")) {
+     if (_0x5b8ee5[0].includes("Queen_Nikka • sᴏɴɢ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ")) {
        const _0x1724ba = _0x5b8ee5.find(_0x525632 => _0x525632.startsWith("Url :"));
        let _0x43a95e = _0x1724ba.replace("Url :", "").trim();
        try {
