@@ -7,7 +7,7 @@
 
 ### 2. GET SESSION ID HERE
  
-<a href="[https://arthur-scanner.onrender.com/qr](https://apppp-4a1971b28792.herokuapp.com/pair)"><img src="https://img.shields.io/badge/QR CODE-green" alt="Click Here to Get QR-Code" width="90"></a>
+<a href="https://apppp-4a1971b28792.herokuapp.com/pair"><img src="https://img.shields.io/badge/QR CODE-green" alt="Click Here to Get QR-Code" width="90"></a>
 
 
 ### DEPLOY ON RENDER
