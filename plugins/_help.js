@@ -188,12 +188,12 @@ smd(
   {
     pattern: "ping",
     react: "⚡",
-    desc: "Types 'I am Queen Alya and my speed is' and shows ping",
+    desc: "Types 'I am Queen Nikk  and my speed is' and shows ping",
     category: "misc",
     filename: __filename,
   },
   async (message) => {
-    const text = "I am Queen Alya and my speed is: ";
+    const text = "I am Queen Nikka and my speed is: ";
     let typedMessage = "";
 
     // Measure start time for the ping calculation
