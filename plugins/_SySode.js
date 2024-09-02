@@ -31,7 +31,7 @@ smd({
   const {
     exec: _0x1912df
   } = require("child_process");
-  _0x514d3c.reply("Alya is restarting ♻️");
+  _0x514d3c.reply("bot is restarting ♻️");
   _0x1912df("pm2 restart all");
 });
 smd({
