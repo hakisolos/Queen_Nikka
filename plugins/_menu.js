@@ -1,60 +1,47 @@
-function hi() {
+function greet() {
   console.log("Hello World!");
 }
-hi();
+greet();
+
 const os = require('os');
 const Config = require('../config');
-let {
-  fancytext,
-  tiny,
-  runtime,
-  formatp,
-  prefix
-} = require("../lib");
+const { fancytext, tiny, runtime, formatp, prefix } = require("../lib");
 const long = String.fromCharCode(0x200e);
 const readmore = long.repeat(0xfa1);
 const astro_patch = require("../lib/plugins");
-const trend_usage = (() => {
-  const _0x54290b = ((_0x9a7b0b, _0x10a9a3) => {
-    const _0x9a9fa = Math.random() * (_0x10a9a3 - (_0x9a7b0b + 0x1));
-    const _0x1f8b97 = Math.floor(_0x9a9fa) + _0x9a7b0b;
-    return _0x1f8b97;
-  })(0x1, 0x63);
-  return _0x54290b;
-})();
-const database_info = (() => {
-  const _0x30de08 = ((_0x4f7dda, _0x38a504) => {
-    const _0x1e00ac = Math.random() * (_0x38a504 - (_0x4f7dda + 0x1));
-    const _0x3ce5ab = Math.floor(_0x1e00ac) + _0x4f7dda;
-    return _0x3ce5ab;
-  })(0x1, 0x1f3);
-  return _0x30de08;
-})();
+
+const generateRandomNumber = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const trendUsage = generateRandomNumber(1, 99);
+const databaseInfo = generateRandomNumber(1, 499);
+
 astro_patch.smd({
-  'cmdname': "menu",
-  'desc': "Help list",
-  'react': '🍁',
-  'desc': "To show all available commands.",
-  'type': 'user',
-  'filename': __filename
+  cmdname: "menu",
+  desc: "Displays the help list",
+  react: '👑',
+  type: 'user',
+  filename: __filename
 }, async (context, message) => {
-  try { 
+  try {
     const { commands } = require("../lib");
     const os = require('os');
     const { formatp, runtime, fancytext, tiny, readmore } = require('../lib');
+
     const currentTime = new Date();
     const hours = currentTime.getHours();
     const currentDate = currentTime.toLocaleDateString();
     let greeting = "";
 
     if (hours >= 5 && hours < 12) {
-      greeting = "Good day!";
+      greeting = "Good morning, Your Majesty!";
     } else if (hours >= 12 && hours < 18) {
-      greeting = "Good day!";
+      greeting = "Good afternoon, Your Majesty!";
     } else if (hours >= 18 && hours < 22) {
-      greeting = "Good Evening!";
+      greeting = "Good evening, Your Majesty!";
     } else {
-      greeting = "Good evening!";
+      greeting = "Good night, Your Majesty!";
     }
 
     const commandCategories = {};
@@ -67,34 +54,32 @@ astro_patch.smd({
       }
     });
 
-    // Set the desired menu design
-    const header = "┏━━👉 *" + Config.botname + "* 👈━━✿︎\n";
-    const lineSeparator = "┃ ";
-    const commandPrefix = "┏━━👉";
-    const commandSuffix = "👈━━✿︎";
-    const footer = "┗━━━━━━━━━━━━━━✿︎";
+    const header = "👑 *" + Config.botname + " Commands* 👑\n";
+    const lineSeparator = "✧ ";
+    const commandPrefix = "♛ ";
+    const commandSuffix = " ♛";
+    const footer = "👑 *Long live Queen Nikka!* 👑";
 
     let menuContent = header;
-    menuContent += lineSeparator + "👉 *𝙾𝚆𝙽𝙴𝚁 𝙽𝙰𝙼𝙴:* " + Config.ownername + "\n";
-    menuContent += lineSeparator + "👉 *𝚄𝙿𝚃𝙸𝙼𝙴:* " + runtime(process.uptime()) + "\n";
-    menuContent += lineSeparator + "👉 *𝚁𝙰𝙼 𝚄𝚂𝙴:* " + formatp(os.totalmem() - os.freemem()) + "\n";
-    menuContent += lineSeparator + "👉 *𝙳𝙰𝚃𝙴:* " + currentDate + "\n";
-    menuContent += lineSeparator + "👉 *𝙱𝙾𝚃 𝙲𝙾𝙼𝙼𝙰𝙽𝙳𝚂:* " + commands.length + "\n";
+    menuContent += lineSeparator + "👉 *Owner:* " + Config.ownername + "\n";
+    menuContent += lineSeparator + "👉 *Uptime:* " + runtime(process.uptime()) + "\n";
+    menuContent += lineSeparator + "👉 *RAM Used:* " + formatp(os.totalmem() - os.freemem()) + "\n";
+    menuContent += lineSeparator + "👉 *Date:* " + currentDate + "\n";
+    menuContent += lineSeparator + "👉 *Commands:* " + commands.length + "\n";
     menuContent += lineSeparator + greeting + "\n";
 
-    // List commands by category
     for (const category in commandCategories) {
-      menuContent += commandPrefix + " *" + tiny(category) + "* " + commandSuffix + "\n";
+      menuContent += commandPrefix + "*" + tiny(category) + "*" + commandSuffix + "\n";
       commandCategories[category].forEach(cmd => {
-        menuContent += "┃   ✿︎ " + fancytext(cmd, 1) + "\n";
+        menuContent += "✧   " + fancytext(cmd, 1) + "\n";
       });
     }
-    
-    menuContent += footer + "\n\n𝙼𝙰𝙳𝙴 𝚆𝙸𝚃𝙷 𝙻𝙾𝚅𝙴 *" + Config.botname + "*!\n©𝙷𝙰𝙺𝙸\n" + readmore;
+
+    menuContent += footer + "\n\nCrafted with ❤️ by *" + Config.botname + "*!\n©Hakim\n" + readmore;
 
     const response = {
-      'caption': menuContent,
-      'ephemeralExpiration': 3000
+      caption: menuContent,
+      ephemeralExpiration: 3000
     };
 
     return await context.sendUi(context.chat, response, context);
