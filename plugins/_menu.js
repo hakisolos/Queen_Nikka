@@ -20,7 +20,7 @@ const databaseInfo = generateRandomNumber(1, 499);
 astro_patch.smd({
   cmdname: "menu",
   desc: "Displays the help list",
-  react: '👑',
+  react: '👸',
   type: 'user',
   filename: __filename
 }, async (context, message) => {
@@ -50,21 +50,21 @@ astro_patch.smd({
         if (!commandCategories[cmd.category]) {
           commandCategories[cmd.category] = [];
         }
-        commandCategories[cmd.category].push(cmd.pattern);
+        commandCategories[cmd.category].push(cmd.pattern); my
       }
     });
 
     const header = "👑 *" + Config.botname + " Commands* 👑\n";
-    const lineSeparator = "✧ ";
-    const commandPrefix = "♛ ";
-    const commandSuffix = " ♛";
+    const lineSeparator = "✿︎";
+    const commandPrefix = "👉";
+    const commandSuffix = " 👈";
     const footer = "👑 *Long live Queen Nikka!* 👑";
 
     let menuContent = header;
     menuContent += lineSeparator + "👉 *Owner:* " + Config.ownername + "\n";
     menuContent += lineSeparator + "👉 *Uptime:* " + runtime(process.uptime()) + "\n";
     menuContent += lineSeparator + "👉 *RAM Used:* " + formatp(os.totalmem() - os.freemem()) + "\n";
-    menuContent += lineSeparator + "👉 *Date:* " + currentDate + "\n";
+    menuContent += lineSepar seeator + "👉 *Date:* " + currentDate + "\n";
     menuContent += lineSeparator + "👉 *Commands:* " + commands.length + "\n";
     menuContent += lineSeparator + greeting + "\n";
 
