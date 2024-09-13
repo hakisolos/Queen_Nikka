@@ -1741,88 +1741,75 @@ smd(
      return _0x2c2023.error(_0x86b411 + "\n\ncommand: song", _0x86b411, "*_File not found!!_*");
    }
  });
+const fs = require('fs');
+const yts = require('yt-search');
+const yt = require('ytdl-core');
+
 smd({
   'pattern': "play",
   'alias': ['music'],
-  'desc': "Sends info about the query(of youtube video/audio).",
+  'desc': "Sends info about the query (YouTube video/audio).",
   'category': "downloader",
   'filename': __filename,
   'use': "<faded-Alan walker.>"
-}, async (_0x54463e, _0x1f76d0) => {
+}, async (message, query) => {
   try {
-    let _0x25d045 = _0x1f76d0 ? _0x1f76d0 : _0x54463e.reply_text;
-    var _0x2e913a = _0x25d045.toLowerCase().includes("doc") ? "document" : "audio";
-    if (!_0x25d045) {
-      return _0x54463e.reply('*' + prefix + "play back in black*");
+    let searchQuery = query ? query : message.reply_text;
+
+    // If no query is provided, prompt the user
+    if (!searchQuery) {
+      return message.reply('*Usage:* ' + prefix + 'play <song name or YouTube link>');
     }
-    let _0x2eca3d = /(?:http(?:s|):\/\/|)(?:(?:www\.|)youtube(?:\-nocookie|)\.com\/(?:watch\?.*(?:|\&)v=|embed|shorts\/|v\/)|youtu\.be\/)([-_0-9A-Za-z]{11})/.exec(_0x25d045) || [];
-    let _0xb6fd2d = _0x2eca3d[0x0] || false;
-    if (!_0xb6fd2d) {
-      let _0x4bcf6d = await yts(_0x25d045);
-      let _0xa244ed = _0x4bcf6d.videos[0x0];
-      _0xb6fd2d = _0xa244ed.url;
+
+    // Determine if query is a YouTube URL or search term
+    let videoUrl = /(?:http(?:s|):\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|embed\/|v\/|shorts\/)?([a-zA-Z0-9_-]{11})/.exec(searchQuery) || [];
+    let youtubeId = videoUrl[1] || null;
+
+    if (!youtubeId) {
+      // Search YouTube using yts if not a URL
+      let searchResults = await yts(searchQuery);
+      if (!searchResults.videos.length) {
+        return message.reply('*No video found for query: ' + searchQuery + '*');
+      }
+      let video = searchResults.videos[0];
+      youtubeId = video.videoId;
+      searchQuery = video.url;
     }
-    _0x2eca3d = /(?:http(?:s|):\/\/|)(?:(?:www\.|)youtube(?:\-nocookie|)\.com\/(?:watch\?.*(?:|\&)v=|embed|shorts\/|v\/)|youtu\.be\/)([-_0-9A-Za-z]{11})/.exec(_0xb6fd2d) || [];
-    let _0x6845ab = await yt.getInfo(_0x2eca3d[0x1]);
-    let _0x516e89 = _0x6845ab.title || _0x37323e || _0x2eca3d[0x1];
-    if (_0x6845ab && _0x6845ab.duration >= 2000) {
-      return await _0x54463e.reply("*_Can't dowanload, file duration too big_*");
+
+    // Fetch video information
+    let videoInfo = await yt.getInfo(youtubeId);
+    let title = videoInfo.videoDetails.title;
+    let duration = videoInfo.videoDetails.lengthSeconds;
+
+    // Check if video is too long
+    if (duration >= 2000) {
+      return message.reply('*Cannot download. Video duration is too long.*');
     }
-    await _0x54463e.send("_Downloading " + _0x6845ab.title + '?_');
-    let _0x37323e = await yt.download(_0x2eca3d[0x1], {
-      'type': "audio",
-      'quality': "best"
-    });
-    var _0x28302f = {
-      ...(await _0x54463e.bot.contextInfo(Config.botname, "ꜱᴏɴɢ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ"))
-    };
-    if (_0x37323e) {
-      await _0x54463e.bot.sendMessage(_0x54463e.jid, {
-        [_0x2e913a]: {
-          'url': _0x37323e
-        },
-        'fileName': _0x516e89,
-        'mimetype': 'audio/mpeg',
-        'contextInfo': _0x28302f
+
+    // Notify user about the download
+    await message.reply('_Downloading ' + title + '..._');
+
+    // Download audio using ytdl-core
+    let audioStream = await yt(youtubeId, { filter: 'audioonly', quality: 'highestaudio' });
+    let filePath = `/tmp/${title}.mp3`; // Temporary file location
+
+    audioStream.pipe(fs.createWriteStream(filePath)).on('finish', async () => {
+      // Send the audio file to the user
+      await message.bot.sendMessage(message.jid, {
+        audio: { url: filePath },
+        fileName: title + '.mp3',
+        mimetype: 'audio/mpeg'
       });
-    } else {
-      _0x54463e.send("*_Video not Found_*");
-    }
-    try {
-      fs.unlinkSync(_0x37323e);
-    } catch {}
-  } catch (_0x593953) {
-    return _0x54463e.error(_0x593953 + "\n\ncommand: play", _0x593953, "*_Video not Found_*");
+
+      // Delete the temporary file
+      fs.unlinkSync(filePath);
+    });
+
+  } catch (error) {
+    console.error(error);
+    return message.reply('*Error occurred while processing your request. Please try again.*');
   }
 });
- cmd({
-   pattern: "yts",
-   alias: ["yt", "ytsearch"],
-   desc: "Search Song From youtube",
-   category: "downloader",
-   filename: __filename,
-   use: "<Yt Search Query>"
- }, async (_0x1c8285, _0xca939c) => {
-   try {
-     if (!_0xca939c) {
-       return await _0x1c8285.reply("*_Give Me Search Query!_*");
-     }
-     let _0x2878ec = await yts(_0xca939c);
-     let _0x4186e4 = "*Queen_Nikka • ʏᴏᴜᴛᴜʙᴇ ᴅᴏᴡɴʟᴏᴀᴅ* \n*_______________________________* \n\n_Reply Any Number To Download._\n  _For Audio: 1 mp3._\n  _For Video: 1 video._\n  _For document: 1 document._\n\n_Results For : " + _0xca939c + "_ \n\n";
-     let _0x463366 = 1;
-     for (let _0x308e22 of _0x2878ec.all) {
-       _0x4186e4 += " \n*" + _0x463366++ + " : " + _0x308e22.title + (_0x308e22.timestamp ? "(" + _0x308e22.timestamp + ")" : "") + "*\n*Url : " + _0x308e22.url + "*";
-     }
-     return await _0x1c8285.sendMessage(_0x1c8285.chat, {
-       image: {
-         url: _0x2878ec.all[0].thumbnail
-       },
-       caption: _0x4186e4
-     }, {
-       quoted: _0x1c8285
-     });
-   } catch (_0x5089b0) {}
- });
  smd({
    pattern: "ytmp4",
    alias: ["ytv", "ytvid", "ytvideo"],
