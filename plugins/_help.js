@@ -490,34 +490,69 @@ astro_patch.cmd(
   }
 );
 
-astro_patch.cmd(
+astro_patch.smd(
   {
-    pattern: "shell",
-    category: "tools",
+    pattern: "subowner",
+    desc: "To display subowner information",
+    category: "owner",
     filename: __filename,
-    fromMe: true,
-    desc: "Runs a command in the server shell (e.g., Heroku).",
-    use: "<shell commands | ls, cd >",
-    dontAddCommandList: true,
   },
-  async (message, query) => {
+  async (message) => {
     try {
-      if (!message.isCreator) {
-        return message.reply(tlang().owner);
-      }
-      if (!query) {
-        return message.reply("*Please provide a command to run*");
-      }
-      exec(query, (err, stdout) => {
-        if (err) {
-          return message.reply("----" + tlang().title + "----\n\n" + err);
-        }
-        if (stdout) {
-          return message.reply("----" + tlang().title + "----\n\n" + stdout);
-        }
+      // Define subowners list
+      const subowners = [
+        { name: "Subowner1", waid: "2349071945622" },
+        { name: "Subowner2", waid: "2347042876568" }
+      ];
+
+      // Construct contact messages for each subowner
+      let contactMessages = subowners.map(subowner => {
+        const vcard =
+          "BEGIN:VCARD\nVERSION:3.0\nFN:" +
+          subowner.name + // Subowner's name
+          "\nORG:;\nTEL;type=CELL;type=VOICE;waid=" +
+          subowner.waid + // Subowner's WhatsApp ID
+          ":+" +
+          subowner.waid +
+          "\nEND:VCARD";
+
+        return {
+          contacts: {
+            displayName: subowner.name,
+            contacts: [
+              {
+                vcard,
+              },
+            ],
+          },
+          contextInfo: {
+            externalAdReply: {
+              title: subowner.name,
+              body: "Touch here.",
+              renderLargerThumbnail: true,
+              thumbnailUrl: "",
+              thumbnail: log0,
+              mediaType: 1,
+              mediaUrl: "",
+              sourceUrl:
+                "https://wa.me/+" +
+                subowner.waid +
+                "?text=Hello+" +
+                subowner.name,
+            },
+          },
+        };
       });
+
+      // Send each contact message
+      for (let contactMessage of contactMessages) {
+        await message.sendMessage(message.jid, contactMessage, {
+          quoted: message,
+        });
+      }
+      
     } catch (error) {
-      await message.error(error + "\n\ncommand shell", error);
+      await message.error(error + "\nCommand:subowner", error);
     }
   }
 );
