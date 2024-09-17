@@ -1,8 +1,6 @@
 const util = require("util");
 const fs = require("fs-extra");
-const {
-  cmd
-} = require("../lib/plugins");
+const { cmd } = require("../lib/plugins");
 const {
   formatp,
   TelegraPh,
@@ -19,350 +17,84 @@ const axios = require("axios");
 const fetch = require("node-fetch");
 const os = require("os");
 const speed = require("performance-now");
-function _0x2a0d(_0x32de74, _0xce23fd) {
-  const _0x3ffb1a = _0x2953();
-  _0x2a0d = function (_0x151552, _0x18c062) {
-    _0x151552 = _0x151552 - 233;
-    let _0x5c396f = _0x3ffb1a[_0x151552];
-    return _0x5c396f;
-  };
-  return _0x2a0d(_0x32de74, _0xce23fd);
-}
-function _0x2953() {
-  const _0x4f0c10 = ["json", "choices", "2KTKIiW", "application/json", "chat", "http://api.brainshop.ai/get?bid=175685&key=Pg8Wu8mrDQjfr0uv&uid=[", "4017447FwUKbt", "2673069xtYnEg", "REMOVE_BG_KEY", "Bearer ", "image-alpha-001", "320668Kzvhym", "data", "then", "message", "1548910BYiCAA", "error in aiResponce : ", "119490ILpvcx", "system", "sender", "binary", "from", "log", "dalle", "https://api.remove.bg/v1.0/removebg", "567277OBjzQH", "length", "get", "POST", "stringify", "content", "512x512", "78qmNvDj", "https://api.openai.com/v1/images/generations", "Error While getting Ai responce ", "url", "catch", "]&msg=[", "split", "8yTiNwA", "You", "gpt", "1769427SEqioY"];
-  _0x2953 = function () {
-    return _0x4f0c10;
-  };
-  return _0x2953();
-}
-(function (_0x4f4b4b, _0x46381a) {
-  const _0x23b0f7 = _0x2a0d;
-  const _0x17ab9c = _0x4f4b4b();
-  while (true) {
+smd(
+  {
+    pattern: "nikkaai",
+    desc: "Generate an AI photo.",
+    react: "🤖,"
+    category: "nsfw",
+    filename: __filename,
+    use: "<query>",
+  },
+  async (m, query) => {
     try {
-      const _0x24d937 = parseInt(_0x23b0f7(264)) / 1 * (-parseInt(_0x23b0f7(241)) / 2) + parseInt(_0x23b0f7(238)) / 3 + -parseInt(_0x23b0f7(250)) / 4 + -parseInt(_0x23b0f7(256)) / 5 * (parseInt(_0x23b0f7(271)) / 6) + parseInt(_0x23b0f7(246)) / 7 * (parseInt(_0x23b0f7(235)) / 8) + parseInt(_0x23b0f7(245)) / 9 + -parseInt(_0x23b0f7(254)) / 10;
-      if (_0x24d937 === _0x46381a) {
-        break;
+      // Check if query is provided
+      if (!query) {
+        return await m.send("*_Please provide a query for the AI photo generator!_*");
+      }
+
+      // Construct the API URL with the provided query
+      const apiUrl = `https://shizoapi.onrender.com/api/ai/imagine?apikey=shizo&query=${encodeURIComponent(query)}`;
+      
+      // Fetch the response from the API
+      const response = await fetch(apiUrl);
+
+      // Check if the response is not OK
+      if (!response.ok) {
+        return await m.send(`*_Error: ${response.status} ${response.statusText}_*`);
+      }
+
+      // Get the content type of the response
+      const contentType = response.headers.get('content-type');
+
+      if (contentType && contentType.startsWith('image')) {
+        // If the response is an image, get the image URL
+        const photoUrl = response.url;
+
+        // Send the photo to the user
+        await m.bot.sendFromUrl(
+          m.from,
+          photoUrl,
+          "Here is your generated photo:",
+          m,
+          {},
+          "image"
+        );
+      } else if (contentType && contentType.includes('application/json')) {
+        // If the response is JSON, parse it
+        const data = await response.json();
+
+        // Check if the status in the response data is not 200
+        if (data.status !== 200) {
+          return await m.send("*_An error occurred while fetching the data._*");
+        }
+
+        // Get the photo URL from the response data
+        const photoUrl = data.result;
+
+        // Send the photo to the user
+        await m.bot.sendFromUrl(
+          m.from,
+          photoUrl,
+          "Here is your generated photo:",
+          m,
+          {},
+          "image"
+        );
       } else {
-        _0x17ab9c.push(_0x17ab9c.shift());
+        // Handle unexpected content types
+        return await m.send("*_Unexpected content type received from the API._*");
       }
-    } catch (_0x1a2819) {
-      _0x17ab9c.push(_0x17ab9c.shift());
+    } catch (e) {
+      // Log the error and send an error message to the user
+      console.error(e);
+      await m.error(`${e}\n\ncommand:  nai`, e);
     }
   }
-})(_0x2953, 305050);
-async function aiResponce(_0x109acf, _0xf00650, _0x2728a0 = "") {
-  const _0x242f00 = _0x2a0d;
-  let _0x2d78d9 = "";
-  try {
-    if (_0xf00650 === _0x242f00(243)) {
-      _0x2d78d9 = await (await axios[_0x242f00(266)](_0x242f00(244) + _0x109acf[_0x242f00(258)][_0x242f00(234)]("@")[0] + _0x242f00(233) + _0x2728a0 + "]"))[_0x242f00(251)].cnt;
-    } else if (_0xf00650 === _0x242f00(237)) {
-      const _0x3e1043 = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: _0x242f00(248) + Config.OPENAI_API_KEY
-        },
-        body: JSON[_0x242f00(268)]({
-          model: "gpt-3.5-turbo",
-          messages: [{
-            role: _0x242f00(257),
-            content: _0x242f00(236)
-          }, {
-            role: "user",
-            content: _0x2728a0
-          }]
-        })
-      });
-      const _0x26c61c = await _0x3e1043[_0x242f00(239)]();
-      if (!_0x26c61c[_0x242f00(240)] || _0x26c61c[_0x242f00(240)][_0x242f00(265)] === 0) {
-        _0x2d78d9 = "*Invalid ChatGPT API Key, Please Put New Key*";
-      } else {
-        _0x2d78d9 = _0x26c61c[_0x242f00(240)][0][_0x242f00(253)][_0x242f00(269)];
-      }
-    } else if (_0xf00650 === _0x242f00(262)) {
-      const _0x1a4db1 = await fetch(_0x242f00(272), {
-        method: _0x242f00(267),
-        headers: {
-          "Content-Type": _0x242f00(242),
-          Authorization: _0x242f00(248) + Config.OPENAI_API_KEY
-        },
-        body: JSON[_0x242f00(268)]({
-          model: _0x242f00(249),
-          prompt: _0x2728a0,
-          size: _0x242f00(270),
-          response_format: _0x242f00(274)
-        })
-      });
-      const _0x2cdadf = await _0x1a4db1[_0x242f00(239)]();
-      _0x2d78d9 = _0x2cdadf[_0x242f00(251)][0][_0x242f00(274)];
-    }
-    if (_0xf00650 === "rmbg") {
-      const _0x142226 = {
-        image_url: _0x2728a0,
-        size: "auto"
-      };
-      axios.post(_0x242f00(263), _0x142226, {
-        headers: {
-          "X-Api-Key": Config[_0x242f00(247)]
-        },
-        responseType: "arraybuffer"
-      })[_0x242f00(252)](_0x18f9bd => {
-        const _0x382416 = _0x242f00;
-        _0x2d78d9 = Buffer[_0x382416(260)](_0x18f9bd[_0x382416(251)], _0x382416(259));
-      })[_0x242f00(275)](_0x25d8c1 => {
-        _0x2d78d9 = false;
-      });
-    }
-    return _0x2d78d9;
-  } catch (_0x4eee67) {
-    console[_0x242f00(261)](_0x242f00(255), _0x4eee67);
-    return _0x242f00(273);
-  }
-}
-;
-smd({
-  pattern: "chat",
-  desc: "chat with an AI",
-  category: "ai",
-  use: "<Hii, Astropeda>",
-  filename: __filename
-}, async (_0x1c0160, _0x482db1) => {
-  try {
-    return _0x1c0160.reply(await aiResponce(_0x1c0160, "chat", _0x482db1));
-  } catch (_0x4adf95) {
-    await _0x1c0160.error(_0x4adf95 + "\n\ncommand: chat", _0x4adf95, "*_no responce from chatbot, sorry!!_*");
-  }
-});
-smd({
-  pattern: "gpt",
-  desc: "chat with an AI",
-  category: "ai",
-  use: "<Hii, Astropeda>",
-  filename: __filename
-}, async (_0x5cb388, _0x302ad5) => {
-  try {
-    try {
-      let _0x557719 = _0x302ad5 ? _0x302ad5 : bot.reply_text;
-      if (!_0x557719) {
-        return man.reply("Provide me a query ex Who is Suhail");
-      }
-      const _0x50c8d3 = await fetch("https://aemt.me/openai?text=" + _0x557719);
-      const _0x14c9d6 = await _0x50c8d3.json();
-      if (_0x14c9d6 && _0x14c9d6.status && _0x14c9d6.result) {
-        return await _0x5cb388.reply(_0x14c9d6.result);
-      }
-    } catch {}
-    if (Config.OPENAI_API_KEY == "" || !Config.OPENAI_API_KEY || !("" + Config.OPENAI_API_KEY).startsWith("sk")) {
-      return _0x5cb388.reply("```You Dont Have OPENAI API KEY \nPlease Create OPEN API KEY from Given Link \nhttps://platform.openai.com/account/api-keys\nAnd Set Key in Heroku OPENAI_API_KEY Var```");
-    }
-    if (!_0x302ad5) {
-      return _0x5cb388.reply("Hey there! " + _0x5cb388.senderName + ". How are you doing these days?");
-    }
-    return _0x5cb388.send(await aiResponce(_0x5cb388, "gpt", _0x302ad5));
-  } catch (_0x2ef914) {
-    await _0x5cb388.error(_0x2ef914 + "\n\ncommand: gpt", _0x2ef914, "*_no responce from chatgpt, sorry!!_*");
-  }
-});
-smd({
-  pattern: "fgpt",
-  desc: "chat with an AI",
-  category: "ai",
-  use: "<query>",
-  filename: __filename
-}, async (_0x42b3b8, _0x3f3887) => {
-  try {
-    let _0x1b0897 = _0x3f3887 ? _0x3f3887 : _0x42b3b8.reply_text;
-    if (!_0x1b0897) {
-      return _0x42b3b8.reply("Provide me a query ex Who is Suhail");
-    }
-    const _0x4c275e = await fetch("https://aemt.me/openai?text=" + _0x1b0897);
-    const _0x4743c3 = await _0x4c275e.json();
-    if (_0x4743c3 && _0x4743c3.status && _0x4743c3.result) {
-      return await _0x42b3b8.send(_0x4743c3.result);
-    } else {
-      await _0x42b3b8.send("*_Error while getting gpt responce!!_*");
-    }
-  } catch (_0x70fc81) {
-    await _0x42b3b8.error(_0x70fc81 + "\n\ncommand: fgpt", _0x70fc81, "*_no responce from chatgpt, sorry!!_*");
-  }
-});
-smd({
-  pattern: "dalle",
-  alias: ["dall", "dall-e"],
-  desc: "chat with an AI",
-  category: "ai",
-  use: "<Hii, Astropeda>",
-  filename: __filename
-}, async (_0x21be87, _0x17d498) => {
-  try {
-    if (!_0x17d498) {
-      return await _0x21be87.reply("*Give Me A Query To Get Dall-E Reponce?*");
-    }
-    const _0x27bd9a = "https://gurugpt.cyclic.app/dalle?prompt=" + encodeURIComponent(_0x17d498);
-    try {
-      return await _0x21be87.bot.sendMessage(_0x21be87.chat, {
-        image: {
-          url: _0x27bd9a
-        },
-        caption: "[PROMPT]: ```" + _0x17d498 + " ```  \n " + Config.caption + " "
-      });
-    } catch (_0x5cee92) {
-      console.log("ERROR IN DALLE RESPONCE FROM API GURUGPT\n", _0x5cee92);
-    }
-    if (Config.OPENAI_API_KEY == "" || !Config.OPENAI_API_KEY || !("" + Config.OPENAI_API_KEY).startsWith("sk")) {
-      return _0x21be87.reply("```You Dont Have OPENAI API KEY \nPlease Create OPEN API KEY from Given Link \nhttps://platform.openai.com/account/api-keys\nAnd Set Key in Heroku OPENAI_API_KEY Var```");
-    }
-    return await _0x21be87.bot.sendMessage(_0x21be87.chat, {
-      image: {
-        url: await aiResponce(_0x21be87, "dalle", _0x17d498)
-      },
-      caption: "*---Your DALL-E Result---*\n" + Config.caption
-    });
-  } catch (_0x25b4b9) {
-    await _0x21be87.error(_0x25b4b9 + "\n\ncommand: dalle", _0x25b4b9, "*_No responce from Dall-E Ai, Sorry!!_*");
-  }
-});
-smd({
-  pattern: "imagine",
-  alias: ["imagin"],
-  desc: "chat with an AI",
-  category: "ai",
-  use: "<boy walking on street>",
-  filename: __filename
-}, async (_0x9bac01, _0x3700d4) => {
-  try {
-    let _0x2968fd = _0x3700d4 || _0x9bac01.reply_text;
-    if (!_0x2968fd) {
-      return await _0x9bac01.reply("*Give Me A Query To Get imagination?*");
-    }
-    let _0x24d5e9 = false;
-    try {
-      const _0x156dd7 = await fetch("https://aemt.me/openai?text=" + (_0x2968fd + " \nNOTE: Make sure to looks like imagination, make it short and concise, also in english!"));
-      const _0x49b22e = await _0x156dd7.json();
-      _0x24d5e9 = _0x49b22e && _0x49b22e.status && _0x49b22e.result ? _0x49b22e.result : "";
-    } catch (_0xf1623a) {
-      _0x24d5e9 = false;
-    }
-    try {
-      await Draw(_0x2968fd || _0x9bac01.reply_text).then(_0x1f03a3 => {
-        _0x9bac01.bot.sendMessage(_0x9bac01.chat, {
-          image: _0x1f03a3,
-          caption: "*[IMAGININATION]:* ```" + _0x2968fd + " ```" + (_0x24d5e9 ? "\n\n*[RESPONCE]:* ```" + _0x24d5e9 + "``` \n" : "") + "  \n " + Config.caption + " "
-        });
-      });
-      return;
-    } catch (_0x45726b) {
-      console.log("ERROR IN IMAGINE RESPONCE FROM IMAGINE API n", _0x45726b);
-    }
-    if (Config.OPENAI_API_KEY == "" || !Config.OPENAI_API_KEY || !("" + Config.OPENAI_API_KEY).startsWith("sk")) {
-      return _0x9bac01.reply("```You Dont Have OPENAI API KEY \nPlease Create OPEN API KEY from Given Link \nhttps://platform.openai.com/account/api-keys\nAnd Set Key in Heroku OPENAI_API_KEY Var```");
-    }
-    return await _0x9bac01.bot.sendMessage(_0x9bac01.chat, {
-      image: {
-        url: await aiResponce(_0x9bac01, "dalle", _0x2968fd)
-      },
-      caption: "*---Your DALL-E Result---*\n" + Config.caption
-    });
-  } catch (_0x5d8080) {
-    await _0x9bac01.error(_0x5d8080 + "\n\ncommand: imagine", _0x5d8080, "*_No responce from Server side, Sorry!!_*");
-  }
-});
-smd({
-  pattern: "imagine2",
-  alias: ["imagin2"],
-  desc: "chat with an AI",
-  category: "ai",
-  use: "<boy walking on street>",
-  filename: __filename
-}, async (_0x39716c, _0xe79cfd) => {
-  try {
-    let _0x5e79d4 = _0xe79cfd || _0x39716c.reply_text;
-    if (!_0x5e79d4) {
-      return await _0x39716c.reply("*Give Me A Query To Get imagination?*");
-    }
-    const _0x14515f = "https://gurugpt.cyclic.app/dalle?prompt=" + encodeURIComponent(_0x5e79d4 + " \nNOTE: Make sure to looks like imagination");
-    let _0x5d0b6a = false;
-    try {
-      const _0x37057d = await fetch("https://aemt.me/openai?text=" + (_0x5e79d4 + " \nNOTE: Make sure to looks like imagination, make it short and concise, also in english!"));
-      const _0x644785 = await _0x37057d.json();
-      _0x5d0b6a = _0x644785 && _0x644785.status && _0x644785.result ? _0x644785.result : "";
-    } catch (_0x3ecac9) {
-      _0x5d0b6a = false;
-    }
-    try {
-      return await _0x39716c.bot.sendMessage(_0x39716c.chat, {
-        image: {
-          url: _0x14515f
-        },
-        caption: "*[IMAGININATION]:* ```" + _0x5e79d4 + " ```" + (_0x5d0b6a ? "\n\n*[RESPONCE]:* ```" + _0x5d0b6a + "``` \n" : "") + "  \n " + Config.caption + " "
-      });
-    } catch (_0x484392) {
-      console.log("ERROR IN IMAGINE RESPONCE FROM API GURUGPT\n", _0x484392);
-    }
-    if (Config.OPENAI_API_KEY == "" || !Config.OPENAI_API_KEY || !("" + Config.OPENAI_API_KEY).startsWith("sk")) {
-      return _0x39716c.reply("```You Dont Have OPENAI API KEY \nPlease Create OPEN API KEY from Given Link \nhttps://platform.openai.com/account/api-keys\nAnd Set Key in Heroku OPENAI_API_KEY Var```");
-    }
-    return await _0x39716c.bot.sendMessage(_0x39716c.chat, {
-      image: {
-        url: await aiResponce(_0x39716c, "dalle", _0x5e79d4)
-      },
-      caption: "*---Your DALL-E Result---*\n" + Config.caption
-    });
-  } catch (_0x110b5d) {
-    await _0x39716c.error(_0x110b5d + "\n\ncommand: imagine", _0x110b5d, "*_No responce from Server side, Sorry!!_*");
-  }
-});
-async function Draw(_0x3ab488) {
-  const _0x54c8a4 = await fetch("https://api-inference.huggingface.co/models/prompthero/openjourney-v2", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      Authorization: "Bearer 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"
-    },
-    body: JSON.stringify({
-      inputs: _0x3ab488
-    })
-  }).then(_0x5838c2 => _0x5838c2.blob());
-  const _0x1c59a6 = await _0x54c8a4.arrayBuffer();
-  return Buffer.from(_0x1c59a6);
-}
-smd({
-  pattern: "rmbg",
-  alias: ["removebg"],
-  category: "ai",
-  filename: __filename,
-  desc: "Remove image Background."
-}, async _0x28a796 => {
-  try {
-    if (!Config.REMOVE_BG_KEY) {
-      return _0x28a796.reply("```You Dont Have REMOVE_BG_KEY \nPlease Create RemoveBG KEY from Given Link \nhttps://www.remove.bg/\nAnd Set Key in REMOVE_BG_KEY Var```");
-    }
-    let _0x536d9f = ["imageMessage"];
-    let _0x4f2076 = _0x536d9f.includes(_0x28a796.mtype) ? _0x28a796 : _0x28a796.reply_message;
-    if (!_0x4f2076 || !_0x536d9f.includes(_0x4f2076?.mtype || "null")) {
-      return await _0x28a796.send("*_Uhh Dear, Reply to an image_*");
-    }
-    let _0x437dc5 = await _0x28a796.bot.downloadAndSaveMediaMessage(_0x4f2076);
-    let _0x4dcaa0 = await TelegraPh(_0x437dc5);
-    try {
-      fs.unlinkSync(_0x437dc5);
-    } catch {}
-    let _0x9b86dd = await aiResponce(_0x28a796, "rmbg", _0x4dcaa0);
-    if (_0x9b86dd) {
-      await _0x28a796.send(_0x9b86dd, {
-        caption: Config.caption
-      }, "image", _0x28a796);
-    } else {
-      await _0x28a796.send("*_Request not be preceed!!_*");
-    }
-  } catch (_0x166d80) {
-    await _0x28a796.error(_0x166d80 + "\n\ncommand: rmbg", _0x166d80, "*_No responce from remove.bg, Sorry!!_*");
-  }
-});
+);
 smd({
   pattern: "readmore",
+  react: "🍀"
   alias: ["rmore", "readmor"],
   desc: "Adds *readmore* in given text.",
   category: "general",
@@ -387,6 +119,7 @@ smd({
 let pmtypes = ["videoMessage", "imageMessage"];
 cmd({
   pattern: "url",
+  react: "👍",
   alias: ["createurl"],
   category: "general",
   filename: __filename,
@@ -413,26 +146,38 @@ cmd({
 });
 cmd({
   pattern: "upload",
-  alias: ["url2"],
+  alias: ["tourl"],
   category: "general",
   filename: __filename,
-  desc: "image to url.",
-  use: "<video | image>"
+  desc: "media to url.",
+  use: "<video | image | audio>"
 }, async _0xbda24 => {
   try {
+    // Add audio to the types of media you want to handle
+    let pmtypes = ["imageMessage", "videoMessage", "audioMessage"];
     let _0x7d6de1 = pmtypes.includes(_0xbda24.mtype) ? _0xbda24 : _0xbda24.reply_message;
+    
     if (!_0x7d6de1 || !pmtypes.includes(_0x7d6de1?.mtype)) {
-      return _0xbda24.reply("*_Uhh Dear, Reply To An Image/Video!_*");
+      return _0xbda24.reply("*_Uhh Dear, Reply To An Image/Video/Audio!_*");
     }
+    
+    // Download and save the media (image, video, or audio)
     let _0xeb95de = await _0xbda24.bot.downloadAndSaveMediaMessage(_0x7d6de1);
     let _0x3e1ea8 = await createUrl(_0xeb95de, "uguMashi");
+
     try {
-      fs.unlink(_0xeb95de);
-    } catch {}
+      fs.unlink(_0xeb95de);  // Delete the saved file after processing
+    } catch (e) {
+      console.log("Error deleting file:", e);
+    }
+
     if (!_0x3e1ea8 || !_0x3e1ea8.url) {
       return _0xbda24.reply("*_Failed To Create Url!_*");
     }
+    
+    // Send the URL to the user
     await _0xbda24.send(util.format(_0x3e1ea8.url), {}, "asta", _0x7d6de1);
+
   } catch (_0x1a2f02) {
     await _0xbda24.error(_0x1a2f02 + "\n\ncommand upload", _0x1a2f02);
   }
@@ -480,6 +225,7 @@ async function getDateTime() {
 }
 smd({
   pattern: "repo",
+  react: "📁",
   alias: ["git", "sc", "script"],
   desc: "Sends info about repo",
   category: "general",
@@ -489,13 +235,14 @@ smd({
     let {
       data: _0x44f98c
     } = await axios.get("https://github.com/hakisolos/Queen_Nikka");
-    let _0x1c73f9 = ("\nQUEEN_NIKKA ᴀ sɪᴍᴘʟᴇ ᴡʜᴀᴛsᴀᴘᴘ ʙᴏᴛ, ᴍᴀᴅᴇ ʙʏ Haki ᴀɴᴅ ᴅᴇᴘʟᴏʏᴇᴅ ʙʏ *" + Config.ownername + "*.\n\n  *👉 Stars:* " + (_0x44f98c?.stargazers_count || "120+") + " stars\n  *👉 Forks:* " + (_0x44f98c?.forks_count || "1000+") + " forks\n  *👉 Authors:* HAKI\n  *👉 Created On:* " + (_0x44f98c?.created_at || "undefined") + "\n  *👉 Repo:* _https://github.com/hakisolos/Queen_Nikka_\n  *👉Scan:* _" + scan + "_" + (Config.caption ? "\n\n" + Config.caption : "")).trim();
+    let _0x1c73f9 = ("\nQUEEN_NIKKA 👸 ᴀ sɪᴍᴘʟᴇ ᴡʜᴀᴛsᴀᴘᴘ ʙᴏᴛ, ᴍᴀᴅᴇ ʙʏ haki ᴀɴᴅ ᴅᴇᴘʟᴏʏᴇᴅ ʙʏ *" + Config.ownername + "*.\n\n  *❲🍀❳ Stars:* " + (_0x44f98c?.stargazers_count || "120+") + " stars\n  *❲🍀❳ Forks:* " + (_0x44f98c?.forks_count || "1000+") + " forks\n  *❲🍀❳ Authors:* Haki and Star King\n  *❲🍀❳ Created On:* " + (_0x44f98c?.created_at || "undefined") + "\n  *❲🍀❳ Repo:* _https://github.com/hakisolos/Queen_Nikka_\n  *❲🍀❳ Scan:* _" + scan + "_" + (Config.caption ? "\n\n" + Config.caption : "")).trim();
     return await _0x45da98.sendUi(_0x45da98.jid, {
       caption: _0x1c73f9
     });
   } catch (_0x5816fe) {
     await _0x45da98.error(_0x5816fe + "\n\ncommand: repo", _0x5816fe);
   }
+});
 smd({
   pattern: "cpu",
   desc: "To check bot status",
@@ -534,7 +281,7 @@ smd({
     latensie = speed() - timestampe;
     var _0x54755f = performance.now();
     var _0x366cd8 = performance.now();
-    respon = ("*❲👑❳ " + Config.botname + " Server Info ❲👑❳*\n\n  *❲👑❳ Runtime:* " + runtime(process.uptime()) + "\n  *❲👑❳ Speed:* " + latensie.toFixed(3) + "/" + (_0x366cd8 - _0x54755f).toFixed(3) + " ms\n  *❲👑❳ RAM:* " + formatp(os.totalmem() - os.freemem()) + " / " + formatp(os.totalmem()) + "\n\n  *❲👑❳ Memory Usage:*\n      " + Object.keys(_0x78d515).map((_0x4a444a, _0xf623b7, _0x26f7ee) => _0x4a444a.padEnd(Math.max(..._0x26f7ee.map(_0x470f51 => _0x470f51.length)), " ") + ": " + formatp(_0x78d515[_0x4a444a])).join("\n      ") + "\n\n" + (_0x14b376[0] ? "  *❲👑❳ Total CPU Usage:*\n  *" + _0x14b376[0].model.trim() + " (" + _0x52bb92.speed + " MHZ)*\n      " + Object.keys(_0x52bb92.times).map(_0x1a945a => "-" + (_0x1a945a + "").padEnd(6) + ": " + (_0x52bb92.times[_0x1a945a] * 100 / _0x52bb92.total).toFixed(2) + "%").join("\n      ") + "\n\n  *❲👑❳ CPU Core Usage (" + _0x14b376.length + " Core CPU)*\n  " + _0x14b376.map((_0x1ada4d, _0x5999d4) => "*Core " + (_0x5999d4 + 1) + ": " + _0x1ada4d.model.trim() + " (" + _0x1ada4d.speed + " MHZ)*\n      " + Object.keys(_0x1ada4d.times).map(_0x2cc08d => "-" + (_0x2cc08d + "").padEnd(6) + ": " + (_0x1ada4d.times[_0x2cc08d] * 100 / _0x1ada4d.total).toFixed(2) + "%").join("\n      ")).join("\n\n") : "") + "\n").trim();
+    respon = ("*❲🍀❳ " + Config.botname + " Server Info ❲🍀❳*\n\n  *❲🍀❳ Runtime:* " + runtime(process.uptime()) + "\n  *❲🍀❳ Speed:* " + latensie.toFixed(3) + "/" + (_0x366cd8 - _0x54755f).toFixed(3) + " ms\n  *❲🍀❳ RAM:* " + formatp(os.totalmem() - os.freemem()) + " / " + formatp(os.totalmem()) + "\n\n  *❲🍀❳ Memory Usage:*\n      " + Object.keys(_0x78d515).map((_0x4a444a, _0xf623b7, _0x26f7ee) => _0x4a444a.padEnd(Math.max(..._0x26f7ee.map(_0x470f51 => _0x470f51.length)), " ") + ": " + formatp(_0x78d515[_0x4a444a])).join("\n      ") + "\n\n" + (_0x14b376[0] ? "  *❲❒❳ Total CPU Usage:*\n  *" + _0x14b376[0].model.trim() + " (" + _0x52bb92.speed + " MHZ)*\n      " + Object.keys(_0x52bb92.times).map(_0x1a945a => "-" + (_0x1a945a + "").padEnd(6) + ": " + (_0x52bb92.times[_0x1a945a] * 100 / _0x52bb92.total).toFixed(2) + "%").join("\n      ") + "\n\n  *❲❒❳ CPU Core Usage (" + _0x14b376.length + " Core CPU)*\n  " + _0x14b376.map((_0x1ada4d, _0x5999d4) => "*Core " + (_0x5999d4 + 1) + ": " + _0x1ada4d.model.trim() + " (" + _0x1ada4d.speed + " MHZ)*\n      " + Object.keys(_0x1ada4d.times).map(_0x2cc08d => "-" + (_0x2cc08d + "").padEnd(6) + ": " + (_0x1ada4d.times[_0x2cc08d] * 100 / _0x1ada4d.total).toFixed(2) + "%").join("\n      ")).join("\n\n") : "") + "\n").trim();
     return await _0x51c639.send(respon, {}, "", _0x51c639);
   } catch (_0x102a1d) {
     await _0x51c639.error(_0x102a1d + "\n\ncommand: cpu", _0x102a1d, "*_No responce from Server side, Sorry!!_*");
@@ -545,7 +292,7 @@ smd({
   alias: ["advertisement"],
   category: "ai",
   desc: "Advertise of your Message, by sending it to provided nmbr range.",
-  use: "234812xxxx,Your_text_here",
+  use: "234911217xxxx,Your_text_here",
   fromMe: true,
   filename: __filename
 }, async (_0x165087, _0x13462a) => {
@@ -621,7 +368,7 @@ smd({
   alias: ["recognition", "anonychat"],
   desc: "Send message Annonymously",
   category: "ai",
-  use: "<Hii, Astropeda>",
+  use: "<Hii, haki>",
   filename: __filename
 }, async (_0x358984, _0x20693a, {
   smd: _0x12d243
@@ -629,7 +376,7 @@ smd({
   try {
     let _0x32512b = _0x20693a ? _0x20693a : _0x358984.reply_text;
     if (!_0x32512b) {
-      return await _0x358984.send("*provide number with msg to send Anonymously.* \n*Example " + (prefix + _0x12d243) + " 2348121373516,your_Message*", {}, "", _0x358984);
+      return await _0x358984.send("*provide number with msg to send Anonymously.* \n*Example " + (prefix + _0x12d243) + " 2348039607375,your_Message*", {}, "", _0x358984);
     }
     if (_0x358984.isCreator && _0x32512b === "info") {
       return await _0x358984.reply(isAnnonyMsgAlive == "" ? "*Theres no Anonymous Chat created yet*" : "*Anonymous Chat Recivers*\n_" + isAnnonyMsgAlive + "_");
@@ -676,7 +423,7 @@ smd({
       if (_0x2dfb59.length < 3) {
         return;
       }
-      if (_0x2acf30.reply_text.includes("QUEEN_ANITA-V2 • ᴀɴɴᴏɴʏᴍᴏᴜs ᴍsɢ") && _0x2dfb59[0].includes("QUEEN_ANITA-V2 • ᴀɴɴᴏɴʏᴍᴏᴜs ᴍsɢ") && _0x2dfb59[2].includes("Msg_Id")) {
+      if (_0x2acf30.reply_text.includes("Queen_Nikka • ᴀɴɴᴏɴʏᴍᴏᴜs ᴍsɢ") && _0x2dfb59[0].includes("Queen_Alya • ᴀɴɴᴏɴʏᴍᴏᴜs ᴍsɢ") && _0x2dfb59[2].includes("Msg_Id")) {
         let _0x1b0d01 = "" + _0x2dfb59[2].replace("*Msg_Id:* ", "").trim();
         let _0x2ecd2a = astro_patch_AnonyMsg[_0x1b0d01];
         if (!_0x2ecd2a) {
@@ -688,7 +435,7 @@ smd({
             if (_0x13a11c.toLowerCase().startsWith("reply")) {
               _0x2ecd2a.howmanyreply += 1;
               const _0x5a2204 = _0x2acf30.text.indexOf(",");
-              let _0x3f6b59 = "*QUEEN_ALYA • ʏᴏᴜʀ ᴀɴᴏɴʏ-ᴍsɢ ʀᴇᴘʟʏ*\n\n*_From @" + _0x2ecd2a.reciever.split("@")[0] + "_*\n*_Msg_Id: " + _0x2ecd2a.id + "_*\n\n*Message:* " + _0x2acf30.text.slice(_0x5a2204 + 1).trim() + "\n\n\n\n" + Config.caption;
+              let _0x3f6b59 = "*QUEEN_Nikka • ʏᴏᴜʀ ᴀɴᴏɴʏ-ᴍsɢ ʀᴇᴘʟʏ*\n\n*_From @" + _0x2ecd2a.reciever.split("@")[0] + "_*\n*_Msg_Id: " + _0x2ecd2a.id + "_*\n\n*Message:* " + _0x2acf30.text.slice(_0x5a2204 + 1).trim() + "\n\n\n\n" + Config.caption;
               if (_0x2ecd2a.howmanyreply >= 2) {
                 isAnnonyMsgAlive = isAnnonyMsgAlive.replace("," + _0x2acf30.sender, "");
               }
@@ -722,13 +469,4 @@ smd({
       }
     }
   } catch {}
-});
-smd({
-  pattern: "aitts",
-  desc: "Text to Voice Using Eleven Lab Ai",
-  category: "ai",
-  use: "<Hii, Astropeda>",
-  filename: __filename
-}, async (_0x1a01af, _0x1ac85a) => {
-  await aitts(_0x1a01af, _0x1ac85a || _0x1a01af.reply_text);
 });
