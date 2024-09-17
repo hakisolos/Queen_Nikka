@@ -86,7 +86,7 @@ astro_patch.smd({
     for (const category in commandCategories) {
       menuContent += commandPrefix + " *" + tiny(category) + "* " + commandSuffix + "\n";
       commandCategories[category].forEach(cmd => {
-        menuContent += "┃   ✿︎ " + fancytext(cmd, 1) + "\n";
+        menuContent += "┃   🍀 " + fancytext(cmd, 1) + "\n";
       });
     }
     
