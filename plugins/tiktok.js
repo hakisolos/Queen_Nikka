@@ -1,4 +1,4 @@
-+$ const {
+const {
   smd,
   fetchJson,
   prefix,
@@ -9,7 +9,7 @@ const fs = require('fs'); // Required for saving temporary video files
 const path = require('path'); // To manage file paths
 
 smd({
-  pattern: "ku", // Command name
+  pattern: "tt", // Command name
   alias: ["tiktokdl"],
   react: "🎥",
   desc: "Downloads video from a TikTok link.",
