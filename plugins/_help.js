@@ -465,8 +465,8 @@ astro_patch.smd(
     try {
       // Define subowners list
       const subowners = [
-        { name: "Subowner1", waid: "2349071945622" },
-        { name: "Subowner2", waid: "2347042876568" }
+        { name: "GOJO", waid: "2349071945622" },
+        { name: "DLORD", waid: "2347042876568" }
       ];
 
       // Construct contact messages for each subowner
