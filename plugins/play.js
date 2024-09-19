@@ -1,4 +1,4 @@
-+$ const {
+const {
   smd,
   fetchJson,
   astroJson,
@@ -11,7 +11,6 @@
 } = require("../lib");
 const { search, download } = require("aptoide-scraper");
 const googleTTS = require("google-tts-api");
-const ytdl = require("alya");
 const yts = require("secktor-pack");
 const fetch = require("node-fetch");
 var videotime = 2000;
@@ -47,7 +46,7 @@ smd({
     await _0x2c2023.bot.sendMessage(_0x2c2023.jid, {
       image: _0x3885cc,
       caption: `
-*Queen_Nikka • ᴍᴜꜱɪᴄ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ*
+*Queen_Nikka • SONG DOWNLOADER🍀*
 
 *Title :* ${_0x4123ae.title}
 *Url :* ${_0x4123ae.url}
@@ -56,7 +55,7 @@ smd({
 *Uploaded :* ${_0x4123ae.ago}
 *Author :* ${_0x4123ae.author.name}
 
-_Alya is singing..._
+_pleaze wait..._
 `
     });
     
