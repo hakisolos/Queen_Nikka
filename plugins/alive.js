@@ -8,7 +8,7 @@ let {
   runtime,
   formatp,
   prefix,
-  smd,
+  smd,  // Ensure smd is imported from your lib
   commands,
 } = require("../lib");
 const long = String.fromCharCode(8206);
@@ -17,24 +17,25 @@ const astro_patch = require("../lib/plugins");
 const { exec } = require("child_process");
 const translatte = require("translatte");
 
-commands.addCommand(
+// Command definition
+smd(
   {
     pattern: "alive", // Command trigger
-    react: "👸", // Reaction to show when command is run
+    react: "👸", // Reaction when the command is run
     desc: "Shows if the bot is alive and displays an image", // Command description
     category: "misc", // Command category
     filename: __filename, // Filename reference
   },
   async (message) => {
-    const imageUrl = "https://imgur.com/a/JHoeGsG"; // Provide the image URL here
+    const imageUrl = "YOUR_IMAGE_LINK_HERE"; // Replace with your actual image link
 
-    // Start by replying to the message to indicate the bot is checking status
+    // Send initial message
     const { key } = await message.reply("*Checking if Queen Nikka is alive...*");
 
-    // Create the final message with text and image
+    // Final message with the status and image
     const finalMessage = `👸 *Queen Nikka is alive!*\n\n*LONG LIVE THE QUEEN 👸*\n![Image](${imageUrl})`;
 
-    // Send the final message, editing the previous reply
+    // Send the final message, editing the previous one
     await message.send(finalMessage, { edit: key });
   }
 );
