@@ -27,7 +27,7 @@ smd(
     filename: __filename, // Filename reference
   },
   async (message) => {
-    const owner = "Your Name"; // Replace with the actual owner's name
+    const owner = "https://wa.me/9112171078"; // Replace with the actual owner's name
     const runtimeInfo = runtime(); // Fetch runtime info
     const imageUrl = "https://imgur.com/a/JHoeGsG"; // Replace with your image URL
 
