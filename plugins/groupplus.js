@@ -186,7 +186,7 @@ smd({
   try {
     let _0x4ea22b = _0x302c94.reply_message ? _0x302c94.reply_message.sender : _0x302c94.mentionedJid[0x0] ? _0x302c94.mentionedJid[0x0] : false;
     if (!_0x4ea22b) {
-      return await _0x302c94.send("*_Uhh please, reply to a user!!_*");
+      return await _0x302c94.send("*_Uhh please, gimme someone!!_*");
     }
     let _0x10f1e1 = (await userdb.findOne({
       'id': _0x4ea22b
@@ -227,7 +227,7 @@ smd({
         await _0x302c94.bot.updateBlockStatus(_0x4ea22b, "block");
       }
     } else {
-      return await _0x302c94.send("*_Hey @" + _0x4ea22b.split('@')[0x0] + " warning added, Don't spam!_*", {
+      return await _0x302c94.send("*_Hey @" + _0x4ea22b.split('@')[0x0] + " BE WARNED!!, HAVE RESPECT FOR THE QUEEN👸!_*", {
         'mentions': [_0x4ea22b]
       });
     }
