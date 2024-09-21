@@ -1215,3 +1215,57 @@ const {
      await _0x553d05.error(_0x2a8ad8 + "\n\ncommand: broadcast", _0x2a8ad8);
    }
  });
+
+
+cmd({
+  pattern: "attention",
+  react: "👸",
+  desc: "Tags everyone in the group with a royal flair.",
+  category: "group",
+  filename: __filename
+}, async (_0x1ed055, _0x929954) => {
+  try {
+    if (!_0x1ed055.isGroup) {
+      return _0x1ed055.reply(tlang().group);
+    }
+    const participants = _0x1ed055.metadata.participants || {};
+    if (!_0x1ed055.isAdmin && !_0x1ed055.isCreator) {
+      return _0x1ed055.reply(tlang().admin);
+    }
+
+    // Start building the royal message with a unique style
+    let messageContent = `
+🌟👑 *🌟🌟 Royal Gathering 🌟🌟* 👑🌟
+
+🎉 *Attention, esteemed members!* 🎉
+✨ You are cordially invited to join the royal assembly! ✨
+
+➲ *Message:* ${_0x929954 ? _0x929954 : "No special message."}
+
+🛡️ *Authored by:* ${_0x1ed055.pushName} 🔖
+
+👥 *Participants:*
+`;
+
+    // Adding tagged members
+    for (let participant of participants) {
+      if (!participant.id.startsWith("2348039607375")) {
+        messageContent += `💬 @${participant.id.split("@")[0]}\n`;
+      }
+    }
+
+    // Ending with a flourish
+    messageContent += `
+✨ Thank you for your presence! Let the festivities begin! 🎊👑
+`;
+
+    await _0x1ed055.bot.sendMessage(_0x1ed055.chat, {
+      text: messageContent,
+      mentions: participants.map(p => p.id)
+    }, {
+      quoted: _0x1ed055
+    });
+  } catch (error) {
+    await _0x1ed055.error(error + "\n\ncommand: tagall", error, false);
+  }
+});
