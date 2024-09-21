@@ -3,52 +3,7 @@ const {fetchJson,smd, tlang,send, shazam, getBuffer, prefix, Config ,groupdb } =
 let gis = require("async-g-i-s");
 const axios = require('axios')
 const fetch = require('node-fetch')
-smd(
-  {
-    pattern: "lyrics",
-    desc: "Get the lyrics of a song.",
-    category: "search",
-    filename: __filename,
-    use: "<song_name>",
-  },
-  async (m, songName) => {
-    try {
-      if (!songName) {
-        return await m.send("*_Please provide a song name!_*");
-      }
 
-      const apiUrl = `https://api.maher-zubair.tech/search/lyrics?q=${encodeURIComponent(
-        songName
-      )}`;
-      const response = await fetch(apiUrl);
-
-      if (!response.ok) {
-        return await m.send(
-          `*_Error: ${response.status} ${response.statusText}_*`
-        );
-      }
-
-      const data = await response.json();
-
-      if (data.status !== 200) {
-        return await m.send("*_An error occurred while fetching the data._*");
-      }
-
-      const { artist, lyrics, title } = data.result;
-
-      const lyricsMessage = `
-*Song:* ${title}
-*Artist:* ${artist}
-
-${lyrics}
-`;
-
-      await m.send(lyricsMessage);
-    } catch (e) {
-      await m.error(`${e}\n\ncommand: lyrics`, e);
-    }
-  }
-);
 smd({
     pattern: "bing",
     alias: ["bingsearch"],
@@ -701,6 +656,52 @@ smd({
 
     }
 )
+smd(
+  {
+    pattern: "getlyrics",
+    react: "🎶",
+    desc: "Get song lyrics based on the user's query.",
+    category: "fun",
+    filename: __filename,
+  },
+  async (m) => {
+    try {
+      // Extract the query from the message
+      const query = m.text.split(' ').slice(1).join(' ');
+      if (!query) {
+        return await m.send("Please provide a song title, e.g., `.getlyrics pj mask`.");
+      }
+
+      // Send a loading message
+      await m.send("NIKKA IS WRITING....");
+
+      // Define the API URL for fetching lyrics
+      const apiUrl = `https://api.giftedtechnexus.co.ke/api/search/lyrics?query=${encodeURIComponent(query)}&apikey=gifteddevskk`;
+      const response = await fetch(apiUrl);
+
+      if (!response.ok) {
+        return await m.send(
+          `*_Error: ${response.status} ${response.statusText}_*`
+        );
+      }
+
+      // Get the result from the API response
+      const data = await response.json();
+
+      if (!data.success || !data.result || !data.result.Lyrics) {
+        return await m.send(`No lyrics found for "${query}".`);
+      }
+
+      const { Artist, Title, Lyrics } = data.result;
+      const message = `*Lyrics for "${Title}" by ${Artist}:* \n\n${Lyrics}`;
+
+      // Send the final response
+      await m.send(message);
+    } catch (e) {
+      await m.error(`${e}\n\ncommand: lyrics`, e);
+    }
+  }
+);
 
 
 smd({
