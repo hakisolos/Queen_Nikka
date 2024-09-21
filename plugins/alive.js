@@ -1,41 +1,84 @@
-const os = require("os");
 const fs = require("fs");
 const Config = require("../config");
-let {
-  fancytext,
-  tlang,
-  tiny,
-  runtime,
-  formatp,
-  prefix,
-  smd,  // Ensure smd is imported from your lib
-  commands,
-} = require("../lib");
-const long = String.fromCharCode(8206);
-const readmore = long.repeat(4001);
-const astro_patch = require("../lib/plugins");
-const { exec } = require("child_process");
-const translatte = require("translatte");
+const { smd } = require("../lib");
 
-// Command definition
+// Command definitio
 smd(
   {
     pattern: "alive", // Command trigger
     react: "👸", // Reaction when the command is run
-    desc: "Shows if the bot is alive and displays an image", // Command description
+    desc: "Check bot's status, speed, and latency with channel link", // Command description
+    category: "misc", // Command category
+    filename: __filename, // Filename reference
+  },
+  async (message, client) => {
+    const start = Date.now();
+    
+    // Perform an action (no intermediate reply message)
+    await new Promise((resolve) => setTimeout(resolve, 100)); // Small delay to simulate a task
+
+    const latency = Date.now() - start;
+    const channelLink = "https://whatsapp.com/channel/0029VaoLotu42DchJmXKBN3L"; // Replace with your actual channel link
+
+    // Final message with latency, speed, and channel link
+    const finalMessage = `
+👸 *Queen Nikka is Alive!*
+
+*Latency:* ${latency}ms
+*Speed:* Fast as always🚀
+
+*Channel Link:* (${channelLink})
+
+*LONG LIVE THE QUEEN 👸*
+    `;
+
+    // Send the final message directly (no initial message)
+    await message.reply(finalMessage);
+  }
+);
+
+
+// about command
+
+
+smd(
+  {
+    pattern: "abbt", // Command trigger
+    react: "👸", // Reaction when the command is run
+    desc: "Shows if the bot is alive and displays important information", // Command description
     category: "misc", // Command category
     filename: __filename, // Filename reference
   },
   async (message) => {
-    const imageUrl = "YOUR_IMAGE_LINK_HERE"; // Replace with your actual image link
+    const owner = "HAKI"; // Owner name
+    const repoLink = "https://github.com/hakisolos/queen_nikka"; // Repository link
+    const channelLink = "https://whatsapp.com/channel/0029VaoLotu42DchJmXKBN3L"; // Channel link
+    const whatsappGroupLink = "https://chat.whatsapp.com/CdF4bo9NLcSBP8ThD2tDko"; // WhatsApp Group link
+    const uptime = runtime(process.uptime()); // Get bot uptime
 
-    // Send initial message
-    const { key } = await message.reply("*Checking if Queen Nikka is alive...*");
+    // Prepare the final message content
+    const finalMessage = `
+👸 `Queen Nikka MD`
 
-    // Final message with the status and image
-    const finalMessage = `👸 *Queen Nikka is alive!*\n\n*LONG LIVE THE QUEEN 👸*\n![Image](${imageUrl})`;
+*Owner:* ${owner}
 
-    // Send the final message, editing the previous one
-    await message.send(finalMessage, { edit: key });
+
+*Channel:* (${channelLink})
+
+
+*Repository:* (${repoLink}
+
+
+*WhatsApp Group:* (${whatsappGroupLink})
+
+*Made With love by Haki❤️*
+
+*Bot Uptime:* ${uptime}
+
+*LONG LIVE THE QUEEN 👸*
+`;
+
+    // Send the final message
+    await message.reply(finalMessage);
   }
 );
