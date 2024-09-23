@@ -2,7 +2,16 @@ const fs = require("fs");
 const Config = require("../config");
 const { smd } = require("../lib");
 
-// Command definitio
+// Define the runtime function (or import it if it's from another file)
+function runtime(seconds) {
+  const days = Math.floor(seconds / (3600 * 24));
+  const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${days}d ${hours}h ${minutes}m ${secs}s`;
+}
+
+// Command definition for 'alive'
 smd(
   {
     pattern: "alive", // Command trigger
@@ -27,7 +36,7 @@ smd(
 *Latency:* ${latency}ms
 *Speed:* Fast as always🚀
 
-*Channel Link:* (${channelLink})
+*Channel Link:* ${channelLink}
 
 *LONG LIVE THE QUEEN 👸*
     `;
@@ -37,14 +46,11 @@ smd(
   }
 );
 
-
-// about command
-
-
+// About command 'abbt'
 smd(
   {
-    pattern: "abbt", // Command trigger
-    react: "👸", // Reaction when the command is run
+    pattern: "about", // Command trigger
+    react: "👇", // Reaction when the command is run
     desc: "Shows if the bot is alive and displays important information", // Command description
     category: "misc", // Command category
     filename: __filename, // Filename reference
@@ -58,20 +64,17 @@ smd(
 
     // Prepare the final message content
     const finalMessage = `
-👸 `Queen Nikka MD`
+👸 'Queen Nikka MD'
 
 *Owner:* ${owner}
 
+*Channel:* ${channelLink}
 
-*Channel:* (${channelLink})
+*Repository:* ${repoLink}
 
+*WhatsApp Group:* ${whatsappGroupLink}
 
-*Repository:* (${repoLink}
-
-
-*WhatsApp Group:* (${whatsappGroupLink})
-
-*Made With love by Haki❤️*
+*Made With Love by Haki❤️*
 
 *Bot Uptime:* ${uptime}
 
