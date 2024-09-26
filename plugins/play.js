@@ -60,7 +60,7 @@ _pleaze wait..._
     });
     
     // Download the audio using the API
-    const apiUrl = `https://api.giftedtechnexus.co.ke/api/download/ytmp3v2?url=${_0x4123ae.url}&apikey=gifteddevskk`;
+    const apiUrl = `https://api-gifted-tech.onrender.com/docs/`;
     
     let retries = 3;
     while (retries > 0) {
