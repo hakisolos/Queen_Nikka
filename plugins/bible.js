@@ -1,3 +1,4 @@
+Const smd = require ("../lib")
 smd(
   {
     pattern: "bible",
