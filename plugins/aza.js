@@ -8,11 +8,11 @@ smd({
   try {
     const azaMessage = `
 ￣￣￣￣￣￣￣￣￣￣￣￣￣|
-        6718656033
+        *6718656033*
          *MONIEPOINT*
-        *EXCEL MAXWELL-UGIAGBE*
+        *EXCEL MAXEELL-UGIAGBE*
 |＿＿＿＿＿＿＿＿＿＿＿＿＿|
-                     \\•◡•)/
+                     \•◡•)/
                        \\     / 
                         ——
                         |     |
