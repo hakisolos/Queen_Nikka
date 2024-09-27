@@ -21,8 +21,8 @@ smd(
   {
     pattern: "nikkaai",
     desc: "Generate an AI photo.",
-    react: "🤖,"
-    category: "nsfw",
+    react: "🤖",
+    category: "fun",
     filename: __filename,
     use: "<query>",
   },
@@ -94,7 +94,7 @@ smd(
 );
 smd({
   pattern: "readmore",
-  react: "🍀"
+  react: "🍀",
   alias: ["rmore", "readmor"],
   desc: "Adds *readmore* in given text.",
   category: "general",
