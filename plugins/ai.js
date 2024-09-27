@@ -878,7 +878,7 @@ smd(
       }
 
       // Send a loading message
-      await m.sendm.NIKKA is thinking 🤔");
+      await m.send("NIKKA is thinking 🤔");
 
       // Define the API URL
       const apiUrl = `https://api-gifted-tech.onrender.com/api/ai/blackbox?q=${encodeURIComponent(query)}&apikey=gifteddevskk`;
