@@ -1,4 +1,6 @@
 const smd = require ("../lib")
+  
+
 smd({
   pattern: "aza",
   react: "💳",  // No reaction needed
