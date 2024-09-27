@@ -3,103 +3,51 @@ const {fetchJson,smd, tlang,send, shazam, getBuffer, prefix, Config ,groupdb } =
 let gis = require("async-g-i-s");
 const axios = require('axios')
 const fetch = require('node-fetch')
-
-smd({
-    pattern: "bing",
-    alias: ["bingsearch"],
-    desc: "Search on Bing.",
-    category: "search",
+smd(
+  {
+    pattern: "lyrics",
+    desc: "Get song lyrics based on the user's query.",
+    category: "fun",
     filename: __filename,
-    use: "<search query>"
-  }, async (msg, query) => {
+  },
+  async (m) => {
     try {
+      // Extract the query from the message
+      const query = m.text.split(' ').slice(1).join(' ');
       if (!query) {
-        return await msg.reply("*Please provide a search query.*");
+        return await m.send("Please provide a song title, e.g., `.lyrics Spectre Alan Walker`.");
       }
-  
-      const apiUrl = `https://api-smd.onrender.com/api/bingsearch?query=${encodeURIComponent(query)}`;
-      const response = await fetch(apiUrl).then(res => res.json());
-  
-      if (!response || !response.status) {
-        return await msg.reply("*An error occurred while fetching the search results.*");
-      }
-  
-      const results = response.result;
-      let resultText = `*Bing Search Results for "${query}"*\n\n`;
-  
-      for (const result of results) {
-        resultText += `*Title:* ${result.title}\n*Description:* ${result.description}\n*URL:* ${result.url}\n\n`;
-      }
-  
-      await msg.reply(resultText);
-    } catch (err) {
-      await msg.error(err + "\n\ncommand: bing", err, "*An error occurred while searching on Bing.*");
-    }
-  });
-  
-  smd(
-    {
-      pattern: "zip",
-      alias: ["zipcode"],
-      desc: "Provides information about a US zip code.",
-      category: "tools",
-      use: "zip [zip_code]",
-      examples: ["zip 90001", "zip 33162"]
-    },
-    async (message, input) => {
-      const zipCode = input;
-  
-      if (!zipCode) {
-        return message.reply("Please provide a zip code.");
-      }
-  
-      try {
-        const response = await axios.get(`https://api.zippopotam.us/us/${zipCode}`);
-        const { postCode, country, countryAbbreviation, places } = response.data;
-  
-        let output = `
-  *Zip Code:* ${postCode}
-  *Country:* ${country} (${countryAbbreviation})
-  *Places:*
-  `;
-  
-        places.forEach((place, index) => {
-          output += `\n${index + 1}. ${place["place name"]}, ${place.state} (${place.latitude}, ${place.longitude})`;
-        });
-  
-        await message.send(output);
-      } catch (error) {
-        await message.error(
-          error + "\n\nCommand: zip",
-          error,
-          "Failed to retrieve zip code information."
+
+      // Send a loading message
+      await m.send("NIKKA IS WRITING LYRICS  🎵");
+
+      // Define the API URL for fetching lyrics
+      const apiUrl = `https://api-gifted-tech.onrender.com/api/search/lyrics?query=${encodeURIComponent(query)}&apikey=gifteddevskk`;
+      const response = await fetch(apiUrl);
+
+      if (!response.ok) {
+        return await m.send(
+          `*_Error: ${response.status} ${response.statusText}_*`
         );
       }
-    }
-  );
- 
-   smd({
-           pattern: "shazam",
-           category: "search",
-           desc: "Finds info about song",
-           filename: __filename,
-       },
-       async(message) => {
-         try{
-             
-            let mime = message.reply_message ? message.reply_message.mtype : ''
-            if (!/audio/.test(mime)) return message.reply(`Reply audio ${prefix}find`);
-            let buff = await message.reply_message.download();
-           const { shazam } = require(lib_dir)
-            let data = await shazam(buff);
-            if (!data || !data.status) return message.send(data);
-            let h =`*TITLE: _${data.title}_* \n*ARTIST: _${data.artists}_*\n *ALBUM:* _${data.album}_ `
-//   *𝚁𝚎𝚕𝚎𝚊𝚜𝚎:* _${data.release_date}
-           await message.bot.sendUi(message.jid, { caption: h,  },{quoted : message} , "text",'true' );
-       }catch(e){return await message.error(`${e}\n\n command: find`,e,`*_Didn't get any results, Sorry!_*`) }
-})
-    //------------------------------------------------------------------------------------
 
+      // Get the result from the API response
+      const data = await response.json();
+
+      if (!data.success || !data.result || !data.result.Lyrics) {
+        return await m.send(`No lyrics found for "${query}".`);
+      }
+
+      const { Artist, Title, Lyrics } = data.result;
+      const message = `*Lyrics for "${Title}" by ${Artist}:* \n\n${Lyrics}`;
+
+      // Send the final response
+      await m.send(message);
+    } catch (e) {
+      await m.error(`${e}\n\ncommand: lyrics`, e);
+    }
+  }
+);
 smd({
    pattern: "github",
    category: "search",
@@ -656,52 +604,6 @@ smd({
 
     }
 )
-smd(
-  {
-    pattern: "getlyrics",
-    react: "🎶",
-    desc: "Get song lyrics based on the user's query.",
-    category: "fun",
-    filename: __filename,
-  },
-  async (m) => {
-    try {
-      // Extract the query from the message
-      const query = m.text.split(' ').slice(1).join(' ');
-      if (!query) {
-        return await m.send("Please provide a song title, e.g., `.getlyrics pj mask`.");
-      }
-
-      // Send a loading message
-      await m.send("NIKKA IS WRITING....");
-
-      // Define the API URL for fetching lyrics
-      const apiUrl = `https://api.giftedtechnexus.co.ke/api/search/lyrics?query=${encodeURIComponent(query)}&apikey=gifteddevskk`;
-      const response = await fetch(apiUrl);
-
-      if (!response.ok) {
-        return await m.send(
-          `*_Error: ${response.status} ${response.statusText}_*`
-        );
-      }
-
-      // Get the result from the API response
-      const data = await response.json();
-
-      if (!data.success || !data.result || !data.result.Lyrics) {
-        return await m.send(`No lyrics found for "${query}".`);
-      }
-
-      const { Artist, Title, Lyrics } = data.result;
-      const message = `*Lyrics for "${Title}" by ${Artist}:* \n\n${Lyrics}`;
-
-      // Send the final response
-      await m.send(message);
-    } catch (e) {
-      await m.error(`${e}\n\ncommand: lyrics`, e);
-    }
-  }
-);
 
 
 smd({
