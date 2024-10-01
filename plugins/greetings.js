@@ -1,4 +1,4 @@
-const { smd } = require(../lib");
+const { smd } = require("../lib");
 const { setMessage, getMessage, delMessage, getStatus, toggleStatus } =
   require("../database").Greetings;
 
