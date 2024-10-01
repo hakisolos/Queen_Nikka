@@ -38,6 +38,7 @@
     "form-data": "^4.0.0",
     "fs-extra": "^10.1.0",
     "google-it": "^1.6.4",
+    "sequelize": "^6.23.0",
     "google-tts-api": "^2.0.2",
     "heroku-client": "3.1.0",
     "human-readable": "^0.2.1",
