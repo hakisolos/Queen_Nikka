@@ -1,11 +1,10 @@
-const { command } = require("../../lib");
+const { smd } = require(../lib");
 const { setMessage, getMessage, delMessage, getStatus, toggleStatus } =
   require("../database").Greetings;
 
-command(
+smd(
   {
     pattern: "welcome",
-    fromMe: true,
     desc: "description",
     type: "group",
   },
@@ -53,10 +52,9 @@ command(
   }
 );
 
-command(
+smd(
   {
     pattern: "goodbye",
-    fromMe: true,
     desc: "description",
     type: "group",
   },
