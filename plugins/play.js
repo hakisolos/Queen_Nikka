@@ -38,7 +38,7 @@ smd({
     let _0x4342ba = await smdBuffer(_0x4f86cb.thumbnail);
     await _0x213b75.bot.sendMessage(_0x213b75.jid, {
       'image': _0x4342ba,
-      'caption': "\n*Queen_NIKKA • ᴍᴜꜱɪᴄ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ*\n\n*Title :* " + _0x4f86cb.title + "\n*Url :* " + _0x4f86cb.url + "\n*Description :* " + _0x4f86cb.timestamp + "\n*Views :* " + _0x4f86cb.views + "\n*Uploaded :* " + _0x4f86cb.ago + "\n*Author :* " + _0x4f86cb.author.name + "\n\n_HOLD UP..._\n"
+      'caption': "\n*Queen_NIKKA • ᴍᴜꜱɪᴄ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ*\n\n*🍀Title :* " + _0x4f86cb.title + "\n*🍀Url :* " + _0x4f86cb.url + "\n*🍀Description :* " + _0x4f86cb.timestamp + "\n*🍀Views :* " + _0x4f86cb.views + "\n*🍀Uploaded :* " + _0x4f86cb.ago + "\n*🍀Author :* " + _0x4f86cb.author.name + "\n\n== |🍀| powered by Haki |🍀| ==\n"
     });
     const _0x23d6e1 = "https://api-gifted-tech.onrender.com/api/download/ytmp3v2?url=" + _0x4f86cb.url + "&apikey=gifteddevskk";
     let _0x4acf6c = 3;
