@@ -59,6 +59,7 @@ smd(
   },
   async (message) => {
     const owner = "HAKI"; // Owner name
+    const footer = "=== || Powered by HAKI || === ";
     const repoLink = "https://github.com/hakisolos/queen_nikka"; // Repository link
     const channelLink = "https://whatsapp.com/channel/0029VaoLotu42DchJmXKBN3L"; // Channel link
     const whatsappGroupLink = "https://chat.whatsapp.com/CdF4bo9NLcSBP8ThD2tDko"; // WhatsApp Group link
@@ -81,6 +82,9 @@ smd(
 *Bot Uptime:* ${uptime}
 
 *LONG LIVE THE QUEEN 👸*
+
+ ${footer}
+
 `;
 
     // Send the final message
