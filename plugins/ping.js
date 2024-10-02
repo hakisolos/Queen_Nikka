@@ -27,6 +27,9 @@ smd(
 
 *Latency:* ${latency}ms
 *Uptime:* ${uptime}
+
+
+== |🍀|Powered By Haki|🍀| ==
     `;
 
     // Send the final message directly
