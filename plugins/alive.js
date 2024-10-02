@@ -13,6 +13,7 @@ function runtime(seconds) {
 
 // Command definition for 'alive'
 smd(
+smd(
   {
     pattern: "alive", // Command trigger
     react: "👸", // Reaction when the command is run
@@ -38,13 +39,14 @@ smd(
 
 *Channel Link:* ${channelLink}
 
-*LONG LIVE THE QUEEN 👸*
+*=== || Powered by HAKI === ||*
     `;
 
     // Send the final message directly (no initial message)
     await message.reply(finalMessage);
   }
 );
+
 
 // About command 'abbt'
 smd(
