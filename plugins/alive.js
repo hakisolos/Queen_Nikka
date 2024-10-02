@@ -38,7 +38,7 @@ smd(
 
 *Channel Link:* ${channelLink}
 
-*=== || Powered by HAKI === ||*
+*=== |🍀| Powered by HAKI |🍀| ===*
     `;
 
     // Send the final message directly (no initial message)
@@ -58,7 +58,7 @@ smd(
   },
   async (message) => {
     const owner = "HAKI"; // Owner name
-    const footer = "=== || Powered by HAKI || === ";
+    const footer = "=== |🍀| Powered by HAKI |🍀| === ";
     const repoLink = "https://github.com/hakisolos/queen_nikka"; // Repository link
     const channelLink = "https://whatsapp.com/channel/0029VaoLotu42DchJmXKBN3L"; // Channel link
     const whatsappGroupLink = "https://chat.whatsapp.com/CdF4bo9NLcSBP8ThD2tDko"; // WhatsApp Group link
@@ -111,7 +111,7 @@ smd({
     
     const name = "*Haki 🗿*";
     
-    const footer = "*=== || Powered by HAKI || ===*";
+    const footer = "*=== |🍀| Powered by HAKI |🍀| ===*";
 
     const messages = `
       name: ${name}
