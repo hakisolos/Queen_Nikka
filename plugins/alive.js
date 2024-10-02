@@ -90,3 +90,44 @@ smd(
     await message.reply(finalMessage);
   }
 );
+
+
+
+smd({
+    pattern: "dev",
+    react: "🧠",
+    desc: "displays info about the developer",
+    category: "misc",   
+    filename: __filename,
+  },
+  async (message) => {
+    const age = "*18*";
+    
+    const occupation = "*front end web developer*";
+    
+    const hobby = "*coding*";
+    
+    const contact = "*https://wa.me/9112171078*";
+    
+    const name = "*Haki 🗿*";
+    
+    const footer = "*=== || Powered by HAKI || ===*";
+
+    const messages = `
+      name: ${name}
+      
+      age: ${age}
+      
+      occupation: ${occupation}
+      
+      hobby: ${hobby}
+      
+      contact: ${contact}
+      
+
+      ${footer}
+    `;
+    
+    await message.reply(messages);
+  }
+);
