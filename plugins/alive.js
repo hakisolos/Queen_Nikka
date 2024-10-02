@@ -13,7 +13,6 @@ function runtime(seconds) {
 
 // Command definition for 'alive'
 smd(
-smd(
   {
     pattern: "alive", // Command trigger
     react: "👸", // Reaction when the command is run
